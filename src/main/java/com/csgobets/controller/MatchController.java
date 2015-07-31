@@ -28,20 +28,28 @@ public class MatchController {
 				"http://csgolounge.com/api/matches", HttpMethod.GET, null, Match[].class);
 		Match[] matches = result.getBody(); 
 		List<Match> futureMatches = new ArrayList<>();
+		int numOldMatches = 0;
 		for (int i = matches.length - 1; i >= 0; i--) {
-			Match match = matches[i];
-			Date currentDate = new Date();
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String matchDateString = match.getWhen();
-			Date matchDate = null;
-			try {
-				matchDate = formatter.parse(matchDateString);
-			} catch (ParseException e) {
-				e.printStackTrace();
+			if (numOldMatches > 10) {
+				break;
 			}
-			matchDate = DateUtils.addHours(matchDate, 3);
-			if (matchDate.after(currentDate)) {
-				futureMatches.add(match);
+			Match match = matches[i];
+			if (match.getClosed() != 1) {
+				Date currentDate = new Date();
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String matchDateString = match.getWhen();
+				Date matchDate = null;
+				try {
+					matchDate = formatter.parse(matchDateString);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				matchDate = DateUtils.addHours(matchDate, -9);
+				if (matchDate.after(currentDate)) {
+					futureMatches.add(match);
+				} else {
+					numOldMatches++;
+				}
 			}
 		}
 		return futureMatches;
