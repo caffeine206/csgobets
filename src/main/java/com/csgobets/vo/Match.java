@@ -58,4 +58,10 @@ public class Match {
 	public void setFormat(int format) {
 		this.format = format;
 	}
+	
+	@Override
+	public String toString() {
+		return "Match [match=" + match + ", when=" + when + ", a=" + a + ", b=" + b + ", winner=" + winner + ", closed="
+				+ closed + ", event=" + event + ", format=" + format + "]";
+	}
 }

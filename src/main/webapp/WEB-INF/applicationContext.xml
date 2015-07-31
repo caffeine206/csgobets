@@ -20,7 +20,9 @@
     <context:component-scan base-package="com.csgobets.dao" />
     <context:component-scan base-package="com.csgobets.service" />
     <context:component-scan base-package="com.csgobets.vo" />
+    <context:component-scan base-package="com.csgobets.processor" />
     
     <context:annotation-config />
+    <bean class="com.csgobets.processor.MvcConfiguringPostProcessor" />
 </beans>
     
