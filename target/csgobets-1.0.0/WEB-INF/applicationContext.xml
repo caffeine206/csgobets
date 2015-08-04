@@ -17,7 +17,7 @@
     <mvc:resources mapping="/resources/**" location="WEB-INF/resources/" />
         
     <context:component-scan base-package="com.csgobets.controller" />
-    <context:component-scan base-package="com.csgobets.dao" />
+    <context:component-scan base-package="com.csgobets.rest" />
     <context:component-scan base-package="com.csgobets.service" />
     <context:component-scan base-package="com.csgobets.vo" />
     <context:component-scan base-package="com.csgobets.processor" />

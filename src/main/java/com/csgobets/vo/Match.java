@@ -1,67 +1,49 @@
 package com.csgobets.vo;
 
+import java.util.Date;
+
 public class Match {
-	int match;
-	String when;
-	String a;
-	String b;
-	String winner;
-	int closed;
-	String event;
-	int format;
+	private Date date;
+	private String teamA;
+	private String teamB;
+	private double teamAodds;
+	private double teamBodds;
+	private int format;
 	
-	public int getMatch() {
-		return match;
+	public Date getDate() {
+		return date;
 	}
-	public void setMatch(int match) {
-		this.match = match;
+	public void setDate(Date date) {
+		this.date = date;
 	}
-	public String getWhen() {
-		return when;
+	public String getTeamA() {
+		return teamA;
 	}
-	public void setWhen(String when) {
-		this.when = when;
+	public void setTeamA(String teamA) {
+		this.teamA = teamA;
 	}
-	public String getA() {
-		return a;
+	public String getTeamB() {
+		return teamB;
 	}
-	public void setA(String a) {
-		this.a = a;
+	public void setTeamB(String teamB) {
+		this.teamB = teamB;
 	}
-	public String getB() {
-		return b;
+	public double getTeamAodds() {
+		return teamAodds;
 	}
-	public void setB(String b) {
-		this.b = b;
+	public void setTeamAodds(double teamAodds) {
+		this.teamAodds = teamAodds;
 	}
-	public String getWinner() {
-		return winner;
+	public double getTeamBodds() {
+		return teamBodds;
 	}
-	public void setWinner(String winner) {
-		this.winner = winner;
-	}
-	public int getClosed() {
-		return closed;
-	}
-	public void setClosed(int closed) {
-		this.closed = closed;
-	}
-	public String getEvent() {
-		return event;
-	}
-	public void setEvent(String event) {
-		this.event = event;
+	public void setTeamBodds(double teamBodds) {
+		this.teamBodds = teamBodds;
 	}
 	public int getFormat() {
 		return format;
 	}
 	public void setFormat(int format) {
 		this.format = format;
-	}
-	
-	@Override
-	public String toString() {
-		return "Match [match=" + match + ", when=" + when + ", a=" + a + ", b=" + b + ", winner=" + winner + ", closed="
-				+ closed + ", event=" + event + ", format=" + format + "]";
 	}
 }

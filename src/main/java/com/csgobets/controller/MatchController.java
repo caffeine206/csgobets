@@ -1,58 +1,34 @@
 package com.csgobets.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
+import com.csgobets.service.MatchService;
+import com.csgobets.vo.CsglMatch;
 import com.csgobets.vo.Match;
 
 @Controller
 public class MatchController {
 	
+	@Resource(name = "matchService")
+	MatchService matchService;
+	
 	@RequestMapping(value = "/match", method = RequestMethod.GET)
 	@ResponseBody
     public List<Match> getMatches() {
-		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<Match[]> result = restTemplate.exchange(
-				"http://csgolounge.com/api/matches", HttpMethod.GET, null, Match[].class);
-		Match[] matches = result.getBody(); 
-		List<Match> futureMatches = new ArrayList<>();
-		int numOldMatches = 0;
-		for (int i = matches.length - 1; i >= 0; i--) {
-			if (numOldMatches > 10) {
-				break;
-			}
-			Match match = matches[i];
-			if (match.getClosed() != 1) {
-				Date currentDate = new Date();
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String matchDateString = match.getWhen();
-				Date matchDate = null;
-				try {
-					matchDate = formatter.parse(matchDateString);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				matchDate = DateUtils.addHours(matchDate, -9);
-				if (matchDate.after(currentDate)) {
-					futureMatches.add(match);
-				} else {
-					numOldMatches++;
-				}
-			}
-		}
-		return futureMatches;
+		return matchService.getMatchesFromCsgl();
+    }
+	
+	@RequestMapping(value = "/match2", method = RequestMethod.GET)
+	@ResponseBody
+    public List<CsglMatch> getEgbMatches() {
+		return matchService.getMatchesFromEgb();
     }
 
 }
