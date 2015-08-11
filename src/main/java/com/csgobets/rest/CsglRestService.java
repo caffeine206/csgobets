@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.http.HttpMethod;
@@ -97,5 +99,18 @@ public class CsglRestService {
 			}
 		}
 		return futureMatches;
+	}
+
+	public Set<String> getTeams() {
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<CsglMatch[]> result = restTemplate.exchange(
+				MATCH_URL, HttpMethod.GET, null, CsglMatch[].class);
+		CsglMatch[] matches = result.getBody(); 
+		Set<String> teamNames = new HashSet<>();
+		for (int i = matches.length - 1; i > matches.length - 1000; i--) {
+			teamNames.add(matches[i].getA().toLowerCase());
+			teamNames.add(matches[i].getB().toLowerCase());
+		}
+		return teamNames;
 	}
 }

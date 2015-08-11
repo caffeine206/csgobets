@@ -46,4 +46,13 @@ public class Match {
 	public void setFormat(int format) {
 		this.format = format;
 	}
+	
+	public void switchTeams() {
+		String temp = teamA;
+		teamA = teamB;
+		teamB = temp;
+		double tempOdds = teamAodds;
+		teamAodds = teamBodds;
+		teamBodds = tempOdds;
+	}
 }

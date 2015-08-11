@@ -1,6 +1,8 @@
 package com.csgobets.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -10,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.csgobets.service.MatchService;
-import com.csgobets.vo.CsglMatch;
 import com.csgobets.vo.Match;
+import com.csgobets.vo.Recommendation;
 
 @Controller
 public class MatchController {
@@ -27,8 +29,27 @@ public class MatchController {
 	
 	@RequestMapping(value = "/match2", method = RequestMethod.GET)
 	@ResponseBody
-    public List<CsglMatch> getEgbMatches() {
+    public List<Match> getEgbMatches() {
 		return matchService.getMatchesFromEgb();
     }
+	
+	@RequestMapping(value = "/teams", method = RequestMethod.GET)
+	@ResponseBody
+    public Set<String> getTeams() {
+		return matchService.getTeams();
+    }
+	
+	@RequestMapping(value = "/read", method = RequestMethod.GET)
+	@ResponseBody
+    public Map<String, String> readFile() {
+		return matchService.getTeamMappings();
+    }
+	
+	@RequestMapping(value = "/bet", method = RequestMethod.GET)
+	@ResponseBody
+    public List<Recommendation> recommendBet() {
+		return matchService.recommendBet();
+    }
+	
 
 }
