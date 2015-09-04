@@ -57,8 +57,8 @@ public class CsglRestService {
 					e.printStackTrace();
 				}
 				match.setFormat(csglMatch.getFormat());
-				match.setTeamA(csglMatch.getA());
-				match.setTeamB(csglMatch.getB());
+				match.setTeamA(csglMatch.getA().toLowerCase());
+				match.setTeamB(csglMatch.getB().toLowerCase());
 				int teamAodds = matchOdds.getA();
 				int teamBodds = matchOdds.getB();
 				double total = teamAodds + teamBodds;

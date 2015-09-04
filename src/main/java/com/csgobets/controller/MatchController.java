@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,10 +46,10 @@ public class MatchController {
 		return matchService.getTeamMappings();
     }
 	
-	@RequestMapping(value = "/bet", method = RequestMethod.GET)
+	@RequestMapping(value = "/bet/{bankroll}", method = RequestMethod.GET)
 	@ResponseBody
-    public List<Recommendation> recommendBet() {
-		return matchService.recommendBet();
+    public List<Recommendation> recommendBet(@PathVariable("bankroll") double bankroll) {
+		return matchService.recommendBet(bankroll);
     }
 	
 

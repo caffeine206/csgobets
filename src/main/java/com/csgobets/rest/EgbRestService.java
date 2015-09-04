@@ -53,8 +53,13 @@ public class EgbRestService {
 				Date matchDate = new Date(bet.getLong("date") * 1000);
 				if (matchDate.after(currentDate)) {
 					Match match = new Match();
-					match.setTeamA(bet.getJSONObject("gamer_1").getString("nick"));
-					match.setTeamB(bet.getJSONObject("gamer_2").getString("nick"));
+					String teamA = bet.getJSONObject("gamer_1").getString("nick").toLowerCase();
+					String teamB = bet.getJSONObject("gamer_2").getString("nick").toLowerCase();
+					teamA = trimParantheses(teamA);
+					teamB = trimParantheses(teamB);
+					
+					match.setTeamA(teamA);
+					match.setTeamB(teamB);
 
 					match.setDate(matchDate);
 					double teamAodds = bet.getDouble("coef_1");
@@ -67,5 +72,13 @@ public class EgbRestService {
 			}
 		}
 		return result;
+	}
+
+	private String trimParantheses(String team) {
+		int index = (team.indexOf("("));
+		if (index != -1) {
+			team = team.substring(0, index - 1);
+		}
+		return team;
 	}
 }

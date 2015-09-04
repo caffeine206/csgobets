@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class MatchService {
 		Map<String, String> teamMappings = new HashMap<>();
 		try {
 			String sCurrentLine;
-			br = new BufferedReader(new FileReader("E:\\Workspace\\csgobets\\src\\main\\webapp\\resources\\mappings.txt"));
+			br = new BufferedReader(new FileReader("E:\\Workspace\\csgobets\\src\\main\\webapp\\WEB-INF\\resources\\mappings.txt"));
 			while ((sCurrentLine = br.readLine()) != null) {
 				if (!sCurrentLine.isEmpty()) {
 					String[] teams = sCurrentLine.split(",");
@@ -65,7 +66,7 @@ public class MatchService {
 		return teamMappings;
 	}
 
-	public List<Recommendation> recommendBet() {
+	public List<Recommendation> recommendBet(double bankroll) {
 		List<Match> csglMatches = getMatchesFromCsgl();
 		List<Match> egbMatches = getMatchesFromEgb();
 		Set<String> masterTeamList = getTeams();
@@ -98,14 +99,15 @@ public class MatchService {
 				if (!teamBequal) {
 					continue;
 				}
-				recommendations.add(generateRecommendation(egbMatch, csglMatch));
+				recommendations.add(generateRecommendation(egbMatch, csglMatch, bankroll));
 				break;
 			}
 		}
+		Collections.reverse(recommendations);
 		return recommendations;
 	}
 	
-	private Recommendation generateRecommendation(Match egbMatch, Match csglMatch) {
+	private Recommendation generateRecommendation(Match egbMatch, Match csglMatch, double bankroll) {
 		Recommendation recommendation = new Recommendation();
 		recommendation.setFormat(csglMatch.getFormat());
 		recommendation.setTeamA(csglMatch.getTeamA());
@@ -114,8 +116,8 @@ public class MatchService {
 		recommendation.setCsglOdds(csglMatch.getTeamAodds() + " : " + csglMatch.getTeamBodds());
 		recommendation.setEgbOdds(egbMatch.getTeamAodds() + " : " + egbMatch.getTeamBodds());
 		double egbOddsDifference = egbMatch.getTeamAodds() - csglMatch.getTeamAodds();
-		recommendation.setEgbOddsDifference(egbOddsDifference);
-		if (Math.abs(egbOddsDifference) > 5.0) {
+		recommendation.setEgbOddsDifference(String.format("%.2f", egbOddsDifference));
+		if (Math.abs(egbOddsDifference) > .05) {
 			recommendation.setShouldBet(true);
 		} else {
 			recommendation.setShouldBet(false);
@@ -123,7 +125,7 @@ public class MatchService {
 		
 		double percentage = calculateKellyCriterion(egbMatch, csglMatch);
 		recommendation.setPercentageToBet(percentage);
-		recommendation.setBetAmount(percentage * 100 * .5);
+		recommendation.setBetAmount(percentage * bankroll * .25);
 		return recommendation;
 	}
 

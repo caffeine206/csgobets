@@ -6,7 +6,7 @@ public class Recommendation {
 	private Date date;
 	private String teamA;
 	private String teamB;
-	private double egbOddsDifference;
+	private String egbOddsDifference;
 	private int format;
 	private double betAmount;
 	private boolean shouldBet;
@@ -38,11 +38,11 @@ public class Recommendation {
 	public void setTeamB(String teamB) {
 		this.teamB = teamB;
 	}
-	public double getEgbOddsDifference() {
+	public String getEgbOddsDifference() {
 		return egbOddsDifference;
 	}
-	public void setEgbOddsDifference(double egbOddsDifference) {
-		this.egbOddsDifference = egbOddsDifference;
+	public void setEgbOddsDifference(String string) {
+		this.egbOddsDifference = string;
 	}
 	public int getFormat() {
 		return format;
